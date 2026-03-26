@@ -88,9 +88,6 @@ class HolidayControllerTest {
             }
             """;
 
-       /* Holiday holiday=new Holiday("Chirstmas Day","12-25","USA",null);
-        Optional<Holiday> ophol=Optional.of(holiday);
-        when(holidayRepository.findHoliday(any(String.class), any(String.class))).thenReturn(ophol);*/
         mockMvc.perform(post("/api/fedhol/add-Holiday")
                         .content(jsonPayload)
                         .contentType(MediaType.APPLICATION_JSON)
