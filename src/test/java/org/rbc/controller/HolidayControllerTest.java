@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,29 @@ class HolidayControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof HolidayException));
+        ;
+    }
+
+
+    @Test
+    void when_invalid_request_error() throws Exception {
+        String jsonPayload = """
+            {
+              "name": "Chirstmas Day",
+              "date": "12//25",
+              "country": "123"
+            }
+            """;
+
+       /* Holiday holiday=new Holiday("Chirstmas Day","12-25","USA",null);
+        Optional<Holiday> ophol=Optional.of(holiday);
+        when(holidayRepository.findHoliday(any(String.class), any(String.class))).thenReturn(ophol);*/
+        mockMvc.perform(post("/api/fedhol/add-Holiday")
+                        .content(jsonPayload)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException));
         ;
     }
 
