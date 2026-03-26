@@ -9,7 +9,6 @@ import org.rbc.exception.HolidayException;
 import org.rbc.repository.HolidayRepository;
 import org.rbc.util.HolidayMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

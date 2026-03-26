@@ -8,10 +8,10 @@ public enum Messages {
     ALL("ALL");
     private String message;
 
-    public String getMessage(){
+    public String getMessage() {
         return this.message;
     }
-    Messages(String message){
+    Messages(String message) {
         this.message=message;
     }
 }

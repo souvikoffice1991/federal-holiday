@@ -24,7 +24,7 @@ public enum Months {
         this.name = name;
     }
 
-    public static String getName(int num){
+    public static String getName(int num) {
         for (Months month:Months.values()) {
             if(month.num==num){
                 return month.name;

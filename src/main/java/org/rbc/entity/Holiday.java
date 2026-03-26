@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Comparator;
-
 @Entity
 @Data
 @AllArgsConstructor
@@ -16,8 +14,7 @@ import java.util.Comparator;
 @IdClass(HolidayID.class)
 public class Holiday implements Comparable<Holiday>{
 
-   /* @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;*/
+
     @Id
     @Column(nullable = false, length = 100,name = "holiday_name")
     String name;

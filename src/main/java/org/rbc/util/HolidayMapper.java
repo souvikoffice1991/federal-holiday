@@ -9,7 +9,7 @@ import java.util.function.Function;
 public class HolidayMapper implements Function<Holiday, HolidayResponse> {
 
     @Override
-    public HolidayResponse apply(Holiday holiday) {
+    public  HolidayResponse apply(Holiday holiday) {
         return HolidayResponse.builder().name(holiday.getName()).date(getDate(holiday.getDate())).state(holiday.getState()).build();
     }
 

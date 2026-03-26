@@ -5,10 +5,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class HolidayID {
+public class HolidayID{
     String name;
     String country;
-
-
 }
 

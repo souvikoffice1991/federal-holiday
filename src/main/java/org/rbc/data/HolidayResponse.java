@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class HolidayResponse{
+public class HolidayResponse {
     String name;
     String date;
     @JsonInclude(JsonInclude.Include.NON_NULL)
