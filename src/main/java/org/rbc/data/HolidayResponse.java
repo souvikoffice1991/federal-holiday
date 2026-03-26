@@ -12,4 +12,5 @@ public class HolidayResponse{
     @JsonInclude(JsonInclude.Include.NON_NULL)
     String state;
 
+
 }

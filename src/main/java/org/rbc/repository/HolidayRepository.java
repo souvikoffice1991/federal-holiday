@@ -12,10 +12,11 @@ import java.util.Optional;
 
 @Repository
 public interface HolidayRepository extends JpaRepository<Holiday, Long> {
-    // Basic CRUD methods are inherited automatically.
-    // You can also add custom query methods here:
+
 
    @Query("SELECT p FROM Holiday p WHERE p.country = :country")
     Optional<List<Holiday>> findAllHolidayByCountry(@Param("country") String country);
 
+   @Query("SELECT p FROM Holiday p WHERE p.country = :country and p.name=:name")
+   Optional<Holiday> findHoliday(@Param("country") String country,@Param("name")String name);
 }

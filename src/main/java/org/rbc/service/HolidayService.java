@@ -1,11 +1,14 @@
 package org.rbc.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.rbc.ENUM.Messages;
 import org.rbc.data.HolidayRequest;
 import org.rbc.data.HolidayResponse;
 import org.rbc.entity.Holiday;
+import org.rbc.exception.HolidayException;
 import org.rbc.repository.HolidayRepository;
 import org.rbc.util.HolidayMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +17,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class HolidayService {
 
  HolidayRepository holidayRepository;
- HolidayService(HolidayRepository holidayRepository){
+ @Autowired
+ public HolidayService(HolidayRepository holidayRepository){
   this.holidayRepository=holidayRepository;
  }
 
@@ -32,7 +37,7 @@ public class HolidayService {
   if(opHol.isPresent()){
    holidayList=opHol.get();
   }
-  opHol=holidayRepository.findAllHolidayByCountry(Messages.ALL.name());
+  opHol=holidayRepository.findAllHolidayByCountry(Messages.ALL.getMessage());
   if(opHol.isPresent()){
    holidayList.addAll(opHol.get());
   }
@@ -42,15 +47,23 @@ public class HolidayService {
   return holidayResponseList;
  }
 
- public HolidayResponse addHoliday(HolidayRequest holidayRequest) {
+ public HolidayResponse addOrUpdateHoliday(HolidayRequest holidayRequest,boolean update) {
   if(holidayRequest.getCountry()==null||holidayRequest.getCountry().isBlank()){
-   holidayRequest.setCountry(Messages.ALL.name());
+   holidayRequest.setCountry(Messages.ALL.getMessage());
   }else{
    holidayRequest.setCountry(holidayRequest.getCountry().toUpperCase());
   }
- Holiday holiday=holidayRepository.save(new Holiday(holidayRequest.getName(),holidayRequest.getCountry(),holidayRequest.getDate(), holidayRequest.getState()));
+  Holiday holiday=new Holiday(holidayRequest.getName(),holidayRequest.getCountry(),holidayRequest.getDate(), holidayRequest.getState());
+  Optional<Holiday> opHol=holidayRepository.findHoliday(holiday.getCountry(),holiday.getName());
+  if(update&&opHol.isEmpty()){
+  log.error("in update");
+   throw new HolidayException(Messages.NO_HOLIDAYS_COUNTRY.getMessage());
+  }
+  if(!update&& opHol.isPresent()){
+   log.error("in add");
+   throw new HolidayException(Messages.HOLIDAY_EXIST.getMessage());}
+  holiday=holidayRepository.save(holiday);
   return mapper.apply(holiday);
  }
 
- // public String addHoliday(HolidayRequest holidayRequest)
 }

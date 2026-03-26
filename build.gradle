@@ -25,6 +25,7 @@ dependencies {
     }
 }
 
+manifest { attributes 'Main-Class': 'org.rbc.FedHolidayApp' }
 test {
     useJUnitPlatform()
 }

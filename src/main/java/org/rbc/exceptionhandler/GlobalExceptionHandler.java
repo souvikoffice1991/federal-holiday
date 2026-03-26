@@ -1,6 +1,7 @@
 package org.rbc.exceptionhandler;
 
 import lombok.extern.slf4j.Slf4j;
+import org.rbc.exception.HolidayException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,8 +30,16 @@ public class GlobalExceptionHandler {
 
             return new ResponseEntity<>(message.toString()
                     ,HttpStatus.BAD_REQUEST);
-           // Returns a JSON map of field errors
 
         }
+
+    @ExceptionHandler(HolidayException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleLogicalErrors(HolidayException ex) {
+        log.error("logical error thrown");
+        return new ResponseEntity<>(ex.getMessage()
+                ,HttpStatus.BAD_REQUEST);
+
+    }
     }
 

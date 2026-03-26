@@ -3,6 +3,7 @@ package org.rbc.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import org.rbc.ENUM.Messages;
 import org.rbc.data.HolidayRequest;
 import org.rbc.data.HolidayResponse;
 import org.rbc.entity.Holiday;
@@ -23,46 +24,21 @@ public class HolidayController {
     }
 
 
-    @PostMapping(value = "/addHoliday")
+    @PostMapping(value = "/add-Holiday")
     public ResponseEntity<HolidayResponse> create(@Valid @RequestBody HolidayRequest holidayRequest) {
-        return new ResponseEntity<>(holidayService.addHoliday(holidayRequest),HttpStatus.OK);
+       return new ResponseEntity<>(holidayService.addOrUpdateHoliday(holidayRequest,Boolean.FALSE),HttpStatus.OK);
     }
 
-    // READ (All)
-    @GetMapping(value="/countrylist/{name}")
+    @GetMapping(value="/country-list/{name}")
     public ResponseEntity<List<HolidayResponse>> getListOfFederalHolidays(@PathVariable @Pattern(regexp = "^[A-Za-z]+$", message = "Only alphabets allowed") @NotNull String name) {
-        List<HolidayResponse> fedHolList=holidayService.getHolidays(name);
-        return new ResponseEntity<>(fedHolList, HttpStatus.OK);
+        return new ResponseEntity<>(holidayService.getHolidays(name), HttpStatus.OK);
 
     }
 
-/*    // READ (Single)
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getById(@PathVariable Long id) {
-        return repository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @PutMapping("/update-Holiday")
+    public ResponseEntity<HolidayResponse> update(@Valid @RequestBody HolidayRequest holidayRequest) {
+       return new ResponseEntity<>(holidayService.addOrUpdateHoliday(holidayRequest,Boolean.TRUE),HttpStatus.OK);
     }
 
-    // UPDATE
-    @PutMapping("/{id}")
-    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product details) {
-        return repository.findById(id)
-                .map(product -> {
-                    product.setName(details.getName());
-                    product.setPrice(details.getPrice());
-                    return ResponseEntity.ok(repository.save(product));
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
 
-    // DELETE
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-    }*/
 }
