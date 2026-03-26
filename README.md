@@ -28,9 +28,4 @@ add or update the list of holidays for each country
   * java -jar build/libs/holidaycalendar-1.0-SNAPSHOT.jar
 
 
-## Help
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
